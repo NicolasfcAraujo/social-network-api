@@ -1,0 +1,7 @@
+PUT http://localhost:3000/api/users/64354a755e8dc013d15e1946/post
+Content-Type: application/json
+
+{
+    "image_url": "",
+    "text": "gfhjlfhguhtujyfgkkfhchgtdgnkjmn"
+}

@@ -1,30 +1,33 @@
-const { Schema } = require("mongoose")
-
-const nowDate = new Date
+const mongoose = require("mongoose")
+const { Schema } = mongoose
 
 const postSchema = new Schema({
-    image_url: String,
-    text: String,
-    postDate: nowDate.getTime()
-})
+    image_url: {type: String, default: ""},
+    text: {type: String, require: true},
+}, {timestamps: true})
 
 const messageSchema = new Schema({
-    text: { type: String, require: true },
-    messageDate: nowDate.getTime()
-})
+    text: {type: String, require: true},
+    who: {type: Boolean, require: true},
+}, {timestamps: true})
 
 const chatSchema = new Schema({
     person: {type: String, require: true},
-    messages: messageSchema
+    messages: [messageSchema]
 })
 
 const userSchema = new Schema({
     user_name: {type: String, require: true},
-    avatar_url: String,
-    posts: postSchema,
-    chats: chatSchema
+    user_email: {type: String, require: true},
+    user_pass: {type: String, require: true},
+    avatar_url: {type: String, default: ""},
+    posts: [postSchema],
+    chats: [chatSchema]
 }, {timestamps: true})
 
-const User = require("mongoose").model("User", userSchema)
+const User = mongoose.model("User", userSchema)
+const Post = mongoose.model("Post", postSchema)
 
-module.exports = { User }
+module.exports = { User, Post }
+
+export {}
