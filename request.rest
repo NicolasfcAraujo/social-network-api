@@ -1,7 +1,11 @@
-PUT http://localhost:3000/api/users/64354a755e8dc013d15e1946/post
+PUT  http://localhost:3000/api/users/643548791099c4b0b185dd83/createPost/64354a755e8dc013d15e1946
 Content-Type: application/json
 
 {
-    "image_url": "",
-    "text": "gfhjlfhguhtujyfgkkfhchgtdgnkjmn"
+    "person": "usuario 1",
+    "messages": []
 }
+
+
+#643548791099c4b0b185dd83
+#64354a755e8dc013d15e1946

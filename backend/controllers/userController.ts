@@ -102,6 +102,45 @@ const userController = {
         } catch (error) {
             console.log("Error creating post")
         }
+    },
+    createChat: async (req: Request, res: Response) => {
+        try {
+            const id = req.params.id
+            const anotherUserId = req.params.anotherUserId
+            const chat = {
+                person: req.body.person,
+                text: req.body.text
+            }
+
+            const userName = await UserModel.findById(id).user_name
+
+            res.json({msg : userName})
+            /*
+            const anotherUserChat = {
+
+            }
+
+            const user = await UserModel.findById(id)
+            if(!user) {
+                res.status(404).json({msg: "404. not found"})
+                return
+            }
+
+            const anotherUser = await UserModel.findById(anotherUserId)
+            if(!anotherUser) {
+                res.status(404).json({msg: "404. not found"})
+                return
+            }
+
+            const newChat = await UserModel.findByIdAndUpdate({_id: id}, { $push: { chats: chat } })
+
+            const anotherUserNewChat = await UserModel.findByIdAndUpdate({_id: anotherUser}, { $push: { chats: chat } })
+            */
+
+            
+        } catch (error) {
+            console.log(error)
+        }
     }
 }
 

@@ -16,6 +16,8 @@ router.route("/users/:id").put((req: Request, res: Response) => userController.u
 
 router.route("/users/:id/post").put((req: Request, res: Response) => userController.createPost(req, res))
 
+router.route("/users/:id/createPost/:anotherUserId").put((req: Request, res: Response) => userController.createChat(req, res))
+
 
 module.exports = router
 
