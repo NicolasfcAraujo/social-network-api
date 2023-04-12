@@ -3,16 +3,17 @@ const { Schema } = mongoose
 
 const postSchema = new Schema({
     image_url: {type: String, default: ""},
-    text: {type: String, require: true},
+    text: {type: String, require: true}
 }, {timestamps: true})
 
 const messageSchema = new Schema({
     text: {type: String, require: true},
-    who: {type: Boolean, require: true},
+    who: {type: String, require: true}
 }, {timestamps: true})
 
 const chatSchema = new Schema({
     person: {type: String, require: true},
+    anotherUser: {type: String, require: true},
     messages: [messageSchema]
 })
 

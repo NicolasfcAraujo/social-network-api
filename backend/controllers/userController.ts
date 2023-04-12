@@ -107,36 +107,30 @@ const userController = {
         try {
             const id = req.params.id
             const anotherUserId = req.params.anotherUserId
+
             const chat = {
                 person: req.body.person,
-                text: req.body.text
+                anotherUser: req.body.anotherUser,
+                messages: req.body.messages
             }
 
-            const userName = await UserModel.findById(id).user_name
-
-            res.json({msg : userName})
-            /*
             const anotherUserChat = {
-
+                person: req.body.anotherUser,
+                anotherUser: req.body.person,
+                messages: req.body.messages
             }
 
             const user = await UserModel.findById(id)
-            if(!user) {
-                res.status(404).json({msg: "404. not found"})
-                return
-            }
-
             const anotherUser = await UserModel.findById(anotherUserId)
-            if(!anotherUser) {
+            if(!user || !anotherUser) {
                 res.status(404).json({msg: "404. not found"})
                 return
             }
 
             const newChat = await UserModel.findByIdAndUpdate({_id: id}, { $push: { chats: chat } })
+            const anotherUserNewChat = await UserModel.findByIdAndUpdate({_id: anotherUserId}, { $push: { chats: anotherUserChat } })
 
-            const anotherUserNewChat = await UserModel.findByIdAndUpdate({_id: anotherUser}, { $push: { chats: chat } })
-            */
-
+            res.status(200).json({newChat, anotherUserNewChat, msg: "Chat created"})
             
         } catch (error) {
             console.log(error)
