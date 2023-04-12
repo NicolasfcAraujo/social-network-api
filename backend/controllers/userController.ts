@@ -1,4 +1,4 @@
-import { Request, Response } from "express"
+import { NextFunction, Request, Response } from "express"
 const bcrypt = require("bcrypt")
 const jwt = require("jsonwebtoken")
 
@@ -36,6 +36,8 @@ const userController = {
             const salt = await bcrypt.genSalt(12)
             const passwordHash = await bcrypt.hash(user.user_pass, salt)
 
+            const file = req.file
+            user.avatar_url = file
             user.user_pass = passwordHash
 
             const response = await UserModel.create(user)
@@ -88,10 +90,27 @@ const userController = {
             console.log("Error showing the users")
         }
     },
-    get: async (req: Request, res: Response) => {
+    get: async (req: Request, res: Response, next: NextFunction) => {
+        const authHeader = req.headers['authorization']
+        const token = authHeader && authHeader.split(" ")[1]
+
+        if(!token) {
+            return res.status(401).json({msg: "Access denied"})
+        }
+
+        try {
+            const secret = process.env.SECRET
+            
+            jwt.verify(token, secret)
+
+            next()
+        } catch (error) {
+            res.status(400).json({msg: "invalid token"})
+        }
+
         try {
             const id = req.params.id
-            const user = await UserModel.findById(id)
+            const user = await UserModel.findById(id, "-user_pass")
             if(!user) {
                 res.status(404).json({msg: "404. not found"})
                 return

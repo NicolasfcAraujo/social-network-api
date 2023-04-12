@@ -1,11 +1,5 @@
-PUT http://localhost:3000/api/users/643548791099c4b0b185dd83/sendMessageTo/64354a755e8dc013d15e1946
+GET http://localhost:3000/api/users/643548791099c4b0b185dd83
 Content-Type: application/json
-
-{
-    "text": "primeira mensagem enviada",
-    "who": "643548791099c4b0b185dd83"
-}
-
 
 #643548791099c4b0b185dd83
 #64354a755e8dc013d15e1946
