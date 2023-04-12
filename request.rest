@@ -1,10 +1,9 @@
-PUT  http://localhost:3000/api/users/643548791099c4b0b185dd83/createChat/64354a755e8dc013d15e1946
+PUT http://localhost:3000/api/users/643548791099c4b0b185dd83/sendMessageTo/64354a755e8dc013d15e1946
 Content-Type: application/json
 
 {
-    "person": "usuario 1",
-    "anotherUser": "usuario 2",
-    "messages": []
+    "text": "primeira mensagem enviada",
+    "who": "643548791099c4b0b185dd83"
 }
 
 
