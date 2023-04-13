@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node backend/app.js",
+    "start": "node --exec ts-node backend/app.js",
     "dev": "nodemon --exec ts-node backend/app.ts"
   },
   "dependencies": {
