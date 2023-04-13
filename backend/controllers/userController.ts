@@ -37,7 +37,7 @@ const userController = {
             const passwordHash = await bcrypt.hash(user.user_pass, salt)
 
             const file = req.file
-            const path = "localhost:3000/api"
+            const path = "https://social-network-api-b728.onrender.com/api/"
             user.user_pass = passwordHash
             user.avatar_url = `${path}/files/${file?.filename}`
             
