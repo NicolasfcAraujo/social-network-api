@@ -37,11 +37,12 @@ const userController = {
             const passwordHash = await bcrypt.hash(user.user_pass, salt)
 
             const file = req.file
-            user.avatar_url = file
+            console.log(file)
+            const path = "localhost:3000/api"
             user.user_pass = passwordHash
-
+            user.avatar_url = `${path}/files/${file?.filename}`
             const response = await UserModel.create(user)
-            res.status(201).json({response, msg: "User created!"})
+            res.status(201).json({response, msg: `User created! ${file}`})
         } catch (error) {
             console.log("Error creating a user")
         }

@@ -1,14 +1,13 @@
 import { Request, Response } from "express"
 
+const express = require("express")
 const router = require("express").Router()
 const userController = require("../controllers/userController")
 const upload = require("../../config/multer")
 
+router.use("/files", express.static("uploads"))
 
-router.route("/users").post((req: Request, res: Response) => {
-    userController.create(req, res)
-    upload.single("file")
-})
+router.post("/users", upload.single("file") ,(req: Request, res: Response) => userController.create(req, res))
 
 router.route("/users").get((req: Request, res: Response) => userController.getAll(req, res))
 
