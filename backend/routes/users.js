@@ -1,0 +1,16 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express = require("express");
+const router = require("express").Router();
+const userController = require("../controllers/userController");
+const upload = require("../../config/multer");
+router.use("/files", express.static("uploads"));
+router.post("/users", upload.single("file"), (req, res) => userController.create(req, res));
+router.route("/users").get((req, res) => userController.getAll(req, res));
+router.route("/users/:id").get((req, res) => userController.get(req, res));
+router.route("/users/:id").delete((req, res) => userController.delete(req, res));
+router.route("/users/:id").put((req, res) => userController.update(req, res));
+router.route("/users/:id/post").put((req, res) => userController.createPost(req, res));
+router.route("/users/:id/createChat/:anotherUserId").put((req, res) => userController.createChat(req, res));
+router.route("/users/:senderId/sendMessageTo/:receiverId").put((req, res) => userController.sendMessage(req, res));
+module.exports = router;
