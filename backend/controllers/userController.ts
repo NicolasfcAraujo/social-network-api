@@ -39,7 +39,10 @@ const userController = {
             const file = req.file
             const path = "https://social-network-api-b728.onrender.com/api/"
             user.user_pass = passwordHash
-            user.avatar_url = `${path}/files/${file?.filename}`
+
+            if(file !== null){
+                user.avatar_url = `${path}/files/${file?.filename}`
+            }
             
             const response = await UserModel.create(user)
             res.status(201).json({response, msg: `User created! ${file}`})
