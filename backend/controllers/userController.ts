@@ -80,7 +80,7 @@ const userController = {
             const secret = process.env.SECRET
             const token = jwt.sign({ id: user._id }, secret)
 
-            res.status(200).json({msg: "Authenticate successfully"})
+            res.status(200).json({msg: "Authenticate successfully", token})
         } catch (error) {
             console.log(error)
             res.status(500).json({msg: "Server Error! Try again!"})

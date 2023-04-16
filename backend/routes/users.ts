@@ -9,6 +9,8 @@ router.use("/files", express.static("uploads"))
 
 router.post("/users", upload.single("file") ,(req: Request, res: Response) => userController.create(req, res))
 
+router.route("/users/login").get((req: Request, res: Response) => userController.login(req, res))
+
 router.route("/users").get((req: Request, res: Response) => userController.getAll(req, res))
 
 router.route("/users/:id").get((req: Request, res: Response) => userController.get(req, res))
