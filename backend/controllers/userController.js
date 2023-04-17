@@ -82,19 +82,18 @@ const userController = {
             return res.status(404).json({ msg: "User not found" });
         }
         const authHeader = req.headers["authorization"];
-        const token = authHeader && authHeader.split(" ")[1];
+        const token = authHeader;
+        console.log(token);
         if (!token) {
             return res.status(401).json({ msg: "Access denied" });
         }
         try {
             const secret = process.env.SECRET;
-            jwt.verify(token, secret, (err, decoded) => {
-                console.log(err);
-                return res.json({ decoded });
-            });
+            const decoded = jwt.verify(token, secret);
+            return res.json(decoded);
         }
         catch (error) {
-            console.log(error);
+            console.log(`error do catch: ${error}`);
         }
     }),
     getAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {

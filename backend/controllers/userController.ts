@@ -93,7 +93,9 @@ const userController = {
         }
 
         const authHeader = req.headers["authorization"]
-        const token = authHeader && authHeader.split(" ")[1]
+        const token = authHeader
+
+        console.log(token)
 
         if(!token) {
             return res.status(401).json({ msg: "Access denied"})
@@ -102,12 +104,11 @@ const userController = {
         try {
             const secret = process.env.SECRET
 
-            jwt.verify(token, secret, (err: any, decoded: any) => {
-                console.log(err)
-                return res.json({decoded})
-            })
+            const decoded = jwt.verify(token, secret)
+
+            return res.json(decoded)
         } catch (error) {
-            console.log(error)
+            console.log(`error do catch: ${error}`)
         }
 
     },
