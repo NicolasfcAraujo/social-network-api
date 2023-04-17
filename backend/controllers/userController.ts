@@ -66,6 +66,8 @@ const userController = {
 
         const user = await UserModel.findOne({user_email: login.user_email})
 
+        console.log(user)
+
         if(!user) {
             return res.status(422).json({msg: "User not found"})
         }
@@ -75,16 +77,11 @@ const userController = {
         if(!checkPassword) {
             return res.status(422).json({msg: "Incorrect password"})
         }
+        
+        const secret = process.env.SECRET
+        const token = jwt.sign({id: user._id},secret,{expiresIn: 86400})
 
-        try {
-            const secret = process.env.SECRET
-            const token = jwt.sign({ id: user._id }, secret)
-
-            res.status(200).json({msg: "Authenticate successfully", token})
-        } catch (error) {
-            console.log(error)
-            res.status(500).json({msg: "Server Error! Try again!"})
-        }
+        return res.json({user, token})
     },
     getAll: async (req: Request, res: Response) => {
         try {
