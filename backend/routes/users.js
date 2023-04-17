@@ -6,6 +6,8 @@ const userController = require("../controllers/userController");
 const upload = require("../../config/multer");
 router.use("/files", express.static("uploads"));
 router.post("/users", upload.single("file"), (req, res) => userController.create(req, res));
+router.route("/users/login").post((req, res) => userController.login(req, res));
+router.route("/users/verify/:id").get((req, res) => userController.verifyUser(req, res));
 router.route("/users").get((req, res) => userController.getAll(req, res));
 router.route("/users/:id").get((req, res) => userController.get(req, res));
 router.route("/users/:id").delete((req, res) => userController.delete(req, res));

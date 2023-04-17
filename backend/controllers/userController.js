@@ -39,9 +39,11 @@ const userController = {
             const salt = yield bcrypt.genSalt(12);
             const passwordHash = yield bcrypt.hash(user.user_pass, salt);
             const file = req.file;
-            const path = "localhost:3000/api";
+            const path = "https://social-network-api-b728.onrender.com/api/";
             user.user_pass = passwordHash;
-            user.avatar_url = `${path}/files/${file === null || file === void 0 ? void 0 : file.filename}`;
+            if (file !== null) {
+                user.avatar_url = `${path}/files/${file === null || file === void 0 ? void 0 : file.filename}`;
+            }
             const response = yield UserModel.create(user);
             res.status(201).json({ response, msg: `User created! ${file}` });
         }
@@ -61,6 +63,7 @@ const userController = {
             return res.status(422).json({ msg: "Password is required" });
         }
         const user = yield UserModel.findOne({ user_email: login.user_email });
+        console.log(user);
         if (!user) {
             return res.status(422).json({ msg: "User not found" });
         }
@@ -68,14 +71,30 @@ const userController = {
         if (!checkPassword) {
             return res.status(422).json({ msg: "Incorrect password" });
         }
+        const secret = process.env.SECRET;
+        const token = jwt.sign({ id: user._id }, secret, { expiresIn: 86400 });
+        return res.json({ user, token });
+    }),
+    verifyUser: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+        const id = req.params.id;
+        const user = yield UserModel.findById(id, "-user_pass");
+        if (!user) {
+            return res.status(404).json({ msg: "User not found" });
+        }
+        const authHeader = req.headers["authorization"];
+        const token = authHeader && authHeader.split(" ")[1];
+        if (!token) {
+            return res.status(401).json({ msg: "Access denied" });
+        }
         try {
             const secret = process.env.SECRET;
-            const token = jwt.sign({ id: user._id }, secret);
-            res.status(200).json({ msg: "Authenticate successfully" });
+            jwt.verify(token, secret, (err, decoded) => {
+                console.log(err);
+                return res.json({ decoded });
+            });
         }
         catch (error) {
             console.log(error);
-            res.status(500).json({ msg: "Server Error! Try again!" });
         }
     }),
     getAll: (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -88,19 +107,6 @@ const userController = {
         }
     }),
     get: (req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-        const authHeader = req.headers['authorization'];
-        const token = authHeader && authHeader.split(" ")[1];
-        if (!token) {
-            return res.status(401).json({ msg: "Access denied" });
-        }
-        try {
-            const secret = process.env.SECRET;
-            jwt.verify(token, secret);
-            next();
-        }
-        catch (error) {
-            res.status(400).json({ msg: "invalid token" });
-        }
         try {
             const id = req.params.id;
             const user = yield UserModel.findById(id, "-user_pass");

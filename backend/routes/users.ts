@@ -11,6 +11,8 @@ router.post("/users", upload.single("file") ,(req: Request, res: Response) => us
 
 router.route("/users/login").post((req: Request, res: Response) => userController.login(req, res))
 
+router.route("/users/verify/:id").get((req: Request, res: Response) => userController.verifyUser(req, res))
+
 router.route("/users").get((req: Request, res: Response) => userController.getAll(req, res))
 
 router.route("/users/:id").get((req: Request, res: Response) => userController.get(req, res))

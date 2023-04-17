@@ -83,6 +83,34 @@ const userController = {
 
         return res.json({user, token})
     },
+    verifyUser: async (req: Request, res: Response) => {
+        const id = req.params.id
+
+        const user = await UserModel.findById(id, "-user_pass")
+
+        if(!user){
+            return res.status(404).json({msg: "User not found"})
+        }
+
+        const authHeader = req.headers["authorization"]
+        const token = authHeader && authHeader.split(" ")[1]
+
+        if(!token) {
+            return res.status(401).json({ msg: "Access denied"})
+        }
+
+        try {
+            const secret = process.env.SECRET
+
+            jwt.verify(token, secret, (err: any, decoded: any) => {
+                console.log(err)
+                return res.json({decoded})
+            })
+        } catch (error) {
+            console.log(error)
+        }
+
+    },
     getAll: async (req: Request, res: Response) => {
         try {
             const users = await UserModel.find()
@@ -91,7 +119,7 @@ const userController = {
             console.log("Error showing the users")
         }
     },
-    get: async (req: Request, res: Response, next: NextFunction) => {
+    get: async (req: Request, res: Response, next: NextFunction) => {/*
         const authHeader = req.headers['authorization']
         const token = authHeader && authHeader.split(" ")[1]
 
@@ -107,7 +135,7 @@ const userController = {
             next()
         } catch (error) {
             res.status(400).json({msg: "invalid token"})
-        }
+        }*/
 
         try {
             const id = req.params.id
