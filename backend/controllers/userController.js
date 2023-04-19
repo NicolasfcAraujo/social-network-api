@@ -90,7 +90,7 @@ const userController = {
         try {
             const secret = process.env.SECRET;
             const decoded = jwt.verify(token, secret);
-            return res.json(decoded);
+            return res.json({ decoded });
         }
         catch (error) {
             console.log(`error do catch: ${error}`);
