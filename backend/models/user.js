@@ -12,7 +12,9 @@ const messageSchema = new Schema({
 }, { timestamps: true });
 const chatSchema = new Schema({
     person: { type: String, require: true },
+    person_email: { type: String, require: true },
     anotherUser: { type: String, require: true },
+    anotherUser_email: { type: String, require: true },
     messages: [messageSchema]
 });
 const userSchema = new Schema({

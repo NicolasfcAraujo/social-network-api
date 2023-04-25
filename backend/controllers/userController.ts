@@ -232,8 +232,6 @@ const userController = {
                 messages: req.body.messages
             }
 
-            console.log( chat, anotherUserChat )
-
             const user = await UserModel.findById(id)
             const anotherUser = await UserModel.findById(anotherUserId)
             if(!user || !anotherUser) {

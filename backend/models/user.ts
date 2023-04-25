@@ -13,9 +13,9 @@ const messageSchema = new Schema({
 
 const chatSchema = new Schema({
     person: {type: String, require: true},
-    person_email: { type: String, require: true, default: ""},
+    person_email: { type: String, require: true},
     anotherUser: {type: String, require: true},
-    anotherUser_email: {type: String, require: true, default: ""},
+    anotherUser_email: {type: String, require: true},
     messages: [messageSchema]
 })
 
