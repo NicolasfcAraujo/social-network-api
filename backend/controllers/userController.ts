@@ -228,9 +228,11 @@ const userController = {
                 person: req.body.anotherUser,
                 person_email: req.body.anotherUser_email,
                 anotherUser: req.body.person,
-                anotherUser_email: req.body.person_email ,
+                anotherUser_email: req.body.person_email,
                 messages: req.body.messages
             }
+
+            console.log( chat, anotherUserChat )
 
             const user = await UserModel.findById(id)
             const anotherUser = await UserModel.findById(anotherUserId)
