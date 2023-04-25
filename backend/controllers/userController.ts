@@ -218,13 +218,17 @@ const userController = {
 
             const chat = {
                 person: req.body.person,
+                person_email: req.body.person_email,
                 anotherUser: req.body.anotherUser,
+                anotherUser_email: req.body.anotherUser_email,
                 messages: req.body.messages
             }
 
             const anotherUserChat = {
                 person: req.body.anotherUser,
+                person_email: req.body.anotherUser_email,
                 anotherUser: req.body.person,
+                anotherUser_email: req.body.person_email ,
                 messages: req.body.messages
             }
 
