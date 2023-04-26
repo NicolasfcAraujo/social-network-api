@@ -217,6 +217,7 @@ const userController = {
                 text: req.body.text,
                 who: req.body.who
             };
+            console.log(message);
             const user = yield UserModel.findById(senderId);
             const anotherUser = yield UserModel.findById(receiverId);
             if (!user || !anotherUser) {

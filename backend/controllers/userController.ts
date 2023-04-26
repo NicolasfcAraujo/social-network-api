@@ -258,6 +258,8 @@ const userController = {
                 who: req.body.who
             }
 
+            console.log(message)
+
             const user = await UserModel.findById(senderId)
             const anotherUser = await UserModel.findById(receiverId)
             if(!user || !anotherUser) {
