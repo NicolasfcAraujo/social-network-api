@@ -224,8 +224,8 @@ const userController = {
                 return;
             }
             console.log(user, anotherUser);
-            const newMessage = yield UserModel.findOneAndUpdate({ "chats.person": senderId, "chats.anotherUser": receiverId }, { $push: { "chats.$.messages": message } });
-            const anotherUserNewMessage = yield UserModel.findOneAndUpdate({ "chats.person": receiverId, "chats.anotherUser": senderId }, { $push: { "chats.$.messages": message } });
+            const newMessage = yield UserModel.findOneAndUpdate({ "chats.person_email": user.user_email, "chats.anotherUser_email": anotherUser.user_email }, { $push: { "chats.$.messages": message } });
+            const anotherUserNewMessage = yield UserModel.findOneAndUpdate({ "chats.person_email": anotherUser.user_email, "chats.anotherUser_email": user.user_email }, { $push: { "chats.$.messages": message } });
             res.status(200).json({ newMessage, anotherUserNewMessage, msg: `Message created` });
         }
         catch (error) {
