@@ -265,8 +265,6 @@ const userController = {
                 return
             }
 
-            console.log(user, anotherUser)
-
             const newMessage = await UserModel.findOneAndUpdate({"chats.person_email": user.user_email, "chats.anotherUser_email": anotherUser.user_email}, { $push: { "chats.$.messages": message }})
             const anotherUserNewMessage = await UserModel.findOneAndUpdate({"chats.person_email": anotherUser.user_email, "chats.anotherUser_email": user.user_email}, { $push: { "chats.$.messages": message } })
 
@@ -274,7 +272,26 @@ const userController = {
         } catch (error) {
             console.log(error)
         }
-    }
+    },
+    getChat: async (req: Request, res: Response) => {
+        try {
+            const senderId = req.params.senderId
+            const receiverId = req.params.receiverId
+
+            const user = await UserModel.findById(senderId)
+            const anotherUser = await UserModel.findById(receiverId)
+            if(!user || !anotherUser) {
+                res.status(404).json({msg: "404. not found"})
+                return
+            }
+
+            const senderChat = await UserModel.findOne({"chats.person_email": user.user_email, "chats.anotherUser_email": anotherUser.user_email})
+            
+            res.json(senderChat)
+        } catch (error) {
+            console.log("Error getting chat")
+        }
+    }, 
 
 }
 
