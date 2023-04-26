@@ -15,5 +15,5 @@ router.route("/users/:id").put((req, res) => userController.update(req, res));
 router.route("/users/:id/post").put((req, res) => userController.createPost(req, res));
 router.route("/users/:id/createChat/:anotherUserId").put((req, res) => userController.createChat(req, res));
 router.route("/users/:senderId/sendMessageTo/:receiverId").put((req, res) => userController.sendMessage(req, res));
-router.route("/users/:senderId/getMessages/:receiverId").put((req, res) => userController.getChat(req, res));
+router.route("/users/:senderId/getMessages/:receiverId").get((req, res) => userController.getChat(req, res));
 module.exports = router;
