@@ -258,14 +258,14 @@ const userController = {
                 who: req.body.who
             }
 
-            console.log(message)
-
             const user = await UserModel.findById(senderId)
             const anotherUser = await UserModel.findById(receiverId)
             if(!user || !anotherUser) {
                 res.status(404).json({msg: "404. not found"})
                 return
             }
+
+            console.log(user, anotherUser)
 
             const newMessage = await UserModel.findOneAndUpdate({"chats.person": senderId, "chats.anotherUser": receiverId}, { $push: { "chats.$.messages": message }})
             const anotherUserNewMessage = await UserModel.findOneAndUpdate({"chats.person": receiverId, "chats.anotherUser":senderId}, { $push: { "chats.$.messages": message } })

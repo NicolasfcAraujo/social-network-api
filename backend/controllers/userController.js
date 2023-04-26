@@ -217,13 +217,13 @@ const userController = {
                 text: req.body.text,
                 who: req.body.who
             };
-            console.log(message);
             const user = yield UserModel.findById(senderId);
             const anotherUser = yield UserModel.findById(receiverId);
             if (!user || !anotherUser) {
                 res.status(404).json({ msg: "404. not found" });
                 return;
             }
+            console.log(user, anotherUser);
             const newMessage = yield UserModel.findOneAndUpdate({ "chats.person": senderId, "chats.anotherUser": receiverId }, { $push: { "chats.$.messages": message } });
             const anotherUserNewMessage = yield UserModel.findOneAndUpdate({ "chats.person": receiverId, "chats.anotherUser": senderId }, { $push: { "chats.$.messages": message } });
             res.status(200).json({ newMessage, anotherUserNewMessage, msg: `Message created` });
