@@ -267,7 +267,8 @@ const userController = {
 
             const newMessage = await UserModel.findOneAndUpdate({"chats.person_email": user.user_email, "chats.anotherUser_email": anotherUser.user_email}, { $push: { "chats.$.messages": message }})
             const anotherUserNewMessage = await UserModel.findOneAndUpdate({"chats.person_email": anotherUser.user_email, "chats.anotherUser_email": user.user_email}, { $push: { "chats.$.messages": message } })
-
+            
+            console.log(newMessage, anotherUser)
             res.status(200).json({newMessage, anotherUserNewMessage, msg: `Message created`})
         } catch (error) {
             console.log(error)
