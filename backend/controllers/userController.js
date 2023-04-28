@@ -223,10 +223,9 @@ const userController = {
                 res.status(404).json({ msg: "404. not found" });
                 return;
             }
-            const newMessage = yield UserModel.findOneAndUpdate({ "chats.person_email": user.user_email, "chats.anotherUser_email": anotherUser.user_email }, { $push: { "chats.$.messages": message } });
-            const anotherUserNewMessage = yield UserModel.findOneAndUpdate({ "chats.person_email": anotherUser.user_email, "chats.anotherUser_email": user.user_email }, { $push: { "chats.$.messages": message } });
-            const findTest = yield UserModel.findOne({ "chats.person_email": user.user_email, "chats.anotherUser_email": anotherUser.user_email });
-            res.status(200).json({ newMessage, anotherUserNewMessage, msg: `Message created ${findTest} ` });
+            const newMessage = yield UserModel.findOneAndUpdate({ "chats.person_email": user.user_email, "chats.anotherUser_email": anotherUser.user_email }, { $push: { "chats.$[filter].messages": message } }, { arrayFilters: [{ "filter.anotherUser_email": anotherUser.user_email }] });
+            const anotherUserNewMessage = yield UserModel.findOneAndUpdate({ "chats.person_email": anotherUser.user_email, "chats.anotherUser_email": user.user_email }, { $push: { "chats.$[filter].messages": message } }, { arrayFilters: [{ "filter.anotherUser_email": user.user_email }] });
+            res.status(200).json({ newMessage, anotherUserNewMessage, msg: `Message created` });
         }
         catch (error) {
             console.log(error);
